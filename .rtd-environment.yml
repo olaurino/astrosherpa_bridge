@@ -2,6 +2,7 @@ name: astropy
 
 channels:
   - astropy
+  - sherpa
 
 dependencies:
   - astropy-helpers
@@ -10,3 +11,4 @@ dependencies:
   - matplotlib
   - wcsaxes
 - scipy
+- sherpa
