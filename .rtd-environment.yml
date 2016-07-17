@@ -2,7 +2,7 @@ name: astropy
 
 channels:
   - astropy
-  - sherpa
+  - https://conda.binstar.org/sherpa
 
 dependencies:
   - astropy-helpers
