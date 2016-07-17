@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 
->>>>>>> b70820ceda946bb9d61bda09ee745308050a94ba
 SherpaFitter
 =============
 
