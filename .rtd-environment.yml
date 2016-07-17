@@ -10,5 +10,5 @@ dependencies:
   - cython
   - matplotlib
   - wcsaxes
-- scipy
-- sherpa
+  - scipy
+  - sherpa
