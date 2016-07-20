@@ -4,11 +4,7 @@
 This is an Astropy affiliated package.
 """
 
-<<<<<<< HEAD
 from main import SherpaFitter, SherpaMCMC, Stat, OptMethod, EstMethod, Dataset, ConvertedModel
-=======
-from main import SherpaFitter, SherpaMCMC, Stat, OptMethod, EstMethod
->>>>>>> b70820ceda946bb9d61bda09ee745308050a94ba
 # Affiliated packages may add whatever they like to this file, but
 # should keep this content at the top.
 # ----------------------------------------------------------------------------
