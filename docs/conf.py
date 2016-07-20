@@ -190,20 +190,10 @@ todo_include_todos = False
 # Define standard header/footers.
 
 rst_prolog = ""
-<<<<<<< HEAD
 rst_epilog = ""
 renamed_rst_epilog = """
 .. _AstroPy: http://www.astropy.org/
 .. _IPython: http://ipython.org/
-=======
-
-rst_epilog = ""
-
-renamed_rst_epilog = """
-
-.. _AstroPy: http://www.astropy.org/
-... _IPython: http://ipython.org/
->>>>>>> b70820ceda946bb9d61bda09ee745308050a94ba
 .. _matplotlib: http://matplotlib.org/
 .. _Sphinx: http://sphinx.pocoo.org/
 
@@ -403,8 +393,4 @@ texinfo_documents = [
 intersphinx_mapping = {
     'astropy': ('http://docs.astropy.org/en/stable/', None),
     'sherpa': ('http://hea-www.harvard.edu/~dburke/playground/sherpa/', None)
-<<<<<<< HEAD
     }
-=======
-    }
->>>>>>> b70820ceda946bb9d61bda09ee745308050a94ba

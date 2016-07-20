@@ -1,9 +1,5 @@
 from astropy.modeling.fitting import SherpaFitter
-<<<<<<< HEAD
 sfitter = SherpaFitter(statistic='chi2', optimizer='levmar', estmethod='covariance')
-=======
-sfitter = SherpaFitter(statistic='chi2', optimizer='levmar', estmethod='convariance')
->>>>>>> b70820ceda946bb9d61bda09ee745308050a94ba
 
 
 from astropy.modeling.models import Gaussian1D
@@ -19,12 +15,8 @@ x = np.arange(-3, 3, step)
 y = true(x) + err * np.random.uniform(-1, 1, size=len(x))
 
 yerrs=err * np.random.uniform(0.2, 1, size=len(x))
-<<<<<<< HEAD
 #binsize=step * np.ones(x.shape)  # please note these are binsize/2 not true errors! 
-binsize=(step/2) * np.ones(x.shape)  # please note these are binsize/2 not true errors! 
-=======
 binsize=step * np.ones(x.shape)  # please note these are binsize/2 not true errors! 
->>>>>>> b70820ceda946bb9d61bda09ee745308050a94ba
 
 fit_model = true.copy() # ofset fit model from true 
 fit_model.amplitude = 2
@@ -32,17 +24,12 @@ fit_model.mean = 0
 fit_model.stddev = 0.2
 
 plt.plot(x,true(x), label="True")
-<<<<<<< HEAD
 plt.errorbar(x, y, xerr=binsize, yerr=yerrs, ls="", label="Data")
-=======
-plt.errorbar(x, y, binsize=binsize, yerr=yerrs, ls="", label="Data")
->>>>>>> b70820ceda946bb9d61bda09ee745308050a94ba
 plt.plot(x,fit_model(x), label="Starting fit model")
 plt.legend(loc=(0.02,0.7), frameon=False)
 plt.xlim((-3,3))
 plt.savefig("_generated/example_plot_data.png")
 plt.close('all')
-<<<<<<< HEAD
 
 
 fitted_model = sfitter(fit_model,x, y, xbinsize=binsize, err=yerrs)
@@ -226,5 +213,3 @@ plt.close("all")
 
 
 print("Done")
-=======
->>>>>>> b70820ceda946bb9d61bda09ee745308050a94ba

@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 .. toctree::
    :caption: Classes
    :name: Sclass
@@ -12,27 +12,15 @@
    
    examples_basic
    examples_complex
+   examples_2d
+   examples_mcmc
 
 
-=======
-.. AstroSherpaBridge documentation master file, created by
-.. toctree::
-   :caption: Table of Contents
-   :name: mastertoc
-
-   sherpafitter
-   sherpafitter_examples
-   ...
->>>>>>> b70820ceda946bb9d61bda09ee745308050a94ba
 
 Welcome to AstroSherpaBridge's documentation!
 =============================================
 
 I would like to introduce you to the Google Summer of Code project, a brigde between sherpa and astropy::astropy.modelling this project is to allow astropy users to take advantage of the sherpa package, giving them acess to the fitting routines and uncertainties estimation.
 
-<<<<<<< HEAD
-=======
-last run on commit sb-nb2
->>>>>>> b70820ceda946bb9d61bda09ee745308050a94ba
 
 
