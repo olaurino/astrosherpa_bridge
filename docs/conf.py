@@ -209,6 +209,7 @@ renamed_rst_epilog = """
 # http://docs.readthedocs.org/en/latest/theme.html
 #
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+on_rtd = True
 
 if not on_rtd:
     import sphinx_rtd_theme
