@@ -87,11 +87,11 @@ class EstMethod(SherpaWrapper):
 class SherpaMCMC(object):
     """
         An interface which makes use of sherpa's MCMC(pyBLoCXS) functionality.
-        
+
         Parameters
         ----------
         fitter: a `SherpaFitter` instance:
-                used to caluate the fit statstics, must have been fit as 
+                used to caluate the fit statstics, must have been fit as
                 the covariance matrix is used.
         smapler: string
                 the name of a valid sherpa sampler
@@ -104,9 +104,12 @@ class SherpaMCMC(object):
     def __init__(self, fitter, sampler='mh', walker='mh'):
         self._mcmc = MCMC()
 
-        if hasattr(fitter.fit_info, "extra_output"):
+        if hasattr(fitter.fit_info, "statval"):
             self._fitter = fitter._fitter
-            self._cmatrix = fitter.est_errors().extra_output
+
+            if hasattr(fitter.error_info, "extra_output"):
+                fitter.est_errors()
+            self._cmatrix = fitter.errors_info.extra_output
             pars = fitter._fitmodel.sherpa_model.pars
             self.parameter_map = OrderedDict(map(lambda x: (x.name, x),
                                              pars))
@@ -292,6 +295,7 @@ class SherpaFitter(Fitter):
         self._fitter = None  # a handle for sherpa fit function
         self._fitmodel = None  # a handle for sherpa fit model
         self._data = None  # a handle for sherpa dataset
+        self.error_info = {}
 
     get_sampler = doc_wrapper(SherpaMCMC, "This returns and instance of `SherpaMCMC` with it's self as the fitter:\n")
 
@@ -316,6 +320,11 @@ class SherpaFitter(Fitter):
                 an array of xbinsizes in y  - this will be y -/+ (ybinsize / 2.0)
             err : array or list of arrays (optional)
                 an array of errors in dependant variable
+            bkg : array or list of arrays (optional)
+                this will act as background data
+            bkg_sale : float or list of floats (optional)
+                the scaling factor for the dataset if a single value
+                is supplied it will be copied for eash dataset
             **kwargs:
                 keyword arguments will be passed on to sherpa fit routine
 
@@ -380,9 +389,10 @@ class SherpaFitter(Fitter):
             if not numcores == self._fitter.estmethod.config['numcores']:
                 self._fitter.estmethod.config['numcores'] = numcores
 
-        return self._fitter.est_errors(methoddict=methoddict, parlist=parlist)
+        self.error_info = self._fitter.est_errors(methoddict=methoddict, parlist=parlist)
+        pnames = [p.split(".", 1)[-1] for p in self.error_info.parnames]  # this is to remove the model name
+        return pnames, self.error_info.parvals, self.error_info.parmins, self.error_info.parmaxes
 
-    
 
 class Dataset(SherpaWrapper):
 
@@ -403,7 +413,11 @@ class Dataset(SherpaWrapper):
             an array of errors in y
         err : array (or list of arrays) (optional)
             an array of errors in z
-
+        bkg : array or list of arrays (optional)
+                this will act as background data
+        bkg_sale : float or list of floats (optional)
+                the scaling factor for the dataset if a single value
+                is supplied it will be copied for eash dataset
     returns:
         _data: a sherpa dataset
     """
