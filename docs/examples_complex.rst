@@ -15,15 +15,15 @@ Some quick Preamble
 Parameter constraints
 ---------------------
 
-If you place any of the parameter constaraints on the astropy models then they will be respected by the fitter. Lets take a quick look at that. Firstly lets make a compound model by adding two :py:class:`Gaussian1D <astropy.modeling.models.Gaussian1D>` instances.
+If you place any of the parameter constaraints on the astropy models then they will be respected by the fitter. Lets take a quick look at that. Firstly lets make a compound model by adding two `astropy.modeling.models.Gaussian1D` instances.
 
 .. code-block:: ipython
 
 	double_gaussian = Gaussian1D(amplitude=7, mean=-1.5, stddev=0.5) + Gaussian1D(amplitude=3, mean=0.9, stddev=0.5)
 
-Now we have the compound model lets add tie `amplitude_1` (the amplitude of the right hand side py:class:`Gaussian1D <astropy.modeling.models.Gaussian1D>`) to `1.2*amplitude_0` and while we're at it let generate some data.
+Now we have the compound model lets add tie `amplitude_1` (the amplitude of the right hand side `astropy.modeling.models.Gaussian1D`) to `1.2*amplitude_0` and while we're at it let generate some data.
 
-To do this we must first define the :py:func:`tiedfunc`
+To do this we must first define the `tiedfunc`
 
 .. code-block:: ipython
 
