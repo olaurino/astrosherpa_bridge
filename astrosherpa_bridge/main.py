@@ -38,7 +38,8 @@ class Stat(SherpaWrapper):
     """
     A wrapper for the fit statistics of sherpa
 
-    Parameter:
+    Parameters
+    ----------
         value: String
             the name of a sherpa statistics.
     """
@@ -57,7 +58,8 @@ class OptMethod(SherpaWrapper):
     """
     A wrapper for the optimization methods of sherpa
 
-    Parameter:
+    Parameters
+    ----------
         value: String
             the name of a sherpa optimization method.
     """
@@ -70,7 +72,8 @@ class EstMethod(SherpaWrapper):
     """
     A wrapper for the error estimation methods of sherpa
 
-    Parameter:
+        Parameters
+        ----------
         value: String
             the name of a sherpa statistics.
     """
@@ -84,8 +87,10 @@ class EstMethod(SherpaWrapper):
 class SherpaMCMC(object):
     """
         An interface which makes use of sherpa's MCMC(pyBLoCXS) functionality.
-
-        fitter: a SherpaFitter instance:
+        
+        Parameters
+        ----------
+        fitter: a `SherpaFitter` instance:
                 used to caluate the fit statstics, must have been fit as 
                 the covariance matrix is used.
         smapler: string
@@ -248,7 +253,7 @@ class SherpaFitter(Fitter):
     Sherpa Fitter for astropy models. Yay :)
 
     Parameters
-        ----------
+    ----------
         optimizer : string
             the name of a sherpa optimizer.
             posible options include:
@@ -297,27 +302,27 @@ class SherpaFitter(Fitter):
 
         Parameters
         ----------
-        models : `astropy.modeling.FittableModel` or list of `astropy.modeling.FittableModel`
-            model to fit to x, y, z
-        x : array or list of arrays
-            input coordinates
-        y : array or list of arrays
-            input coordinates
-        z : array or list of arrays (optional)
-            input coordinates
-        xbinsize : array or list of arrays (optional)
-            an array of xbinsizes in x  - this will be x -/+ (binsize  / 2.0)
-        ybinsize : array or list of arrays (optional)
-            an array of xbinsizes in y  - this will be y -/+ (ybinsize / 2.0)
-        err : array or list of arrays (optional)
-            an array of errors in dependant variable
-        **kwargs:
-            keyword arguments will be passed on to sherpa fit routine
+            models : `astropy.modeling.FittableModel` or list of `astropy.modeling.FittableModel`
+                model to fit to x, y, z
+            x : array or list of arrays
+                input coordinates
+            y : array or list of arrays
+                input coordinates
+            z : array or list of arrays (optional)
+                input coordinates
+            xbinsize : array or list of arrays (optional)
+                an array of xbinsizes in x  - this will be x -/+ (binsize  / 2.0)
+            ybinsize : array or list of arrays (optional)
+                an array of xbinsizes in y  - this will be y -/+ (ybinsize / 2.0)
+            err : array or list of arrays (optional)
+                an array of errors in dependant variable
+            **kwargs:
+                keyword arguments will be passed on to sherpa fit routine
 
         Returns
         -------
-        model_copy : `astropy.modeling.FittableModel` or a list of models.
-            a copy of the input model with parameters set by the fitter
+            model_copy : `astropy.modeling.FittableModel` or a list of models.
+                a copy of the input model with parameters set by the fitter
         """
 
         tie_list = []
@@ -353,7 +358,8 @@ class SherpaFitter(Fitter):
         """
         Use sherpa error estimators based on the last fit.
 
-        Parameters:
+        Parameters
+        ----------
             sigma: float
                 this will be set as the confidance interval for which the errors are found too.
             maxiters: int
@@ -382,7 +388,7 @@ class Dataset(SherpaWrapper):
 
     """
     Parameters
-        ----------
+    ----------
         n_dim: int
             Used to veirfy required number of dimentions.
         x : array (or list of arrays)
@@ -440,7 +446,7 @@ class Dataset(SherpaWrapper):
     def _make_dataset(n_dim, x, y, z=None, xbinsize=None, ybinsize=None, err=None, bkg=None, bkg_scale=1, n=0):
         """
         Parameters
-            ----------
+        ----------
             n_dim: int
                 Used to veirfy required number of dimentions.
             x : array
@@ -549,10 +555,10 @@ class Dataset(SherpaWrapper):
         """
         This makes a single datasets into a simdatafit at allow fitting of multiple models by copying the single dataset!
 
-        Parameter:
-
-        numdata: int
-            the number of times you want to copy the dataset i.e if you want 2 datasets total you put 1!
+        Parameters
+        ----------
+            numdata: int
+                the number of times you want to copy the dataset i.e if you want 2 datasets total you put 1!
         """
 
         self.data = DataSimulFit("wrapped_data", [self.data for _ in xrange(numdata)])
@@ -564,7 +570,8 @@ class ConvertedModel(object):
     """
     This  wraps the model convertion to sherpa models and from astropy models and back!
 
-    Parameters:
+    Parameters
+        ----------
         models: model : `astropy.modeling.FittableModel` (or list of)
 
         tie_list: list (optional)
@@ -648,30 +655,31 @@ class ConvertedModel(object):
 class Data1DIntBkg(Data1DInt):
     """
        Data1DInt which tricks sherpa into using the background object without using DataPHA
+       Parameters
+       ----------
+            name: string
+                dataset name
 
-        name: string
-            dataset name
+            xlo: array
+               the array which represents the lower x value for the x bins
 
-        xlo: array
-           the array which represents the lower x value for the x bins
+            xhi: array
+               the array which represents the upper x value for the x bins
 
-        xhi: array
-           the array which represents the upper x value for the x bins
+            y: array
+               the array which represents y data
 
-        y: array
-           the array which represents y data
+            bkg: array
+               the array which represents bkgdata
 
-        bkg: array
-           the array which represents bkgdata
+            staterror: array (optional)
+                the array which represents the errors on z
 
-        staterror: array (optional)
-            the array which represents the errors on z
+            bkg_scale: float
+                the scaling factor for background data
 
-        bkg_scale: float
-            the scaling factor for background data
-
-        src_scale: float
-            the scaling factor for source data
+            src_scale: float
+                the scaling factor for source data
     """
 
     _response_ids = [0]
@@ -711,27 +719,28 @@ class Data1DIntBkg(Data1DInt):
 class Data1DBkg(Data1D):
     """
        Data1D which tricks sherpa into using the background object without using DataPHA
+        Parameters
+        ----------
+            name: string
+                dataset name
 
-        name: string
-            dataset name
+            x: array
+               the array which represents the x values
 
-        x: array
-           the array which represents the x values
+            y: array
+               the array which represents y data
 
-        y: array
-           the array which represents y data
+            bkg: array
+               the array which represents background data
 
-        bkg: array
-           the array which represents background data
+            staterror: array (optional)
+                the array which represents the errors on z
 
-        staterror: array (optional)
-            the array which represents the errors on z
+            bkg_scale: float
+                the scaling factor for background data
 
-        bkg_scale: float
-            the scaling factor for background data
-
-        src_scale: float
-            the scaling factor for source data
+            src_scale: float
+                the scaling factor for source data
     """
 
     _response_ids = [0]
@@ -769,37 +778,38 @@ class Data1DBkg(Data1D):
 class Data2DIntBkg(Data2DInt):
     """
        Data2DInt which tricks sherpa into using the background object without using DataPHA
+        Parameters
+        ----------
+            name: string
+                dataset name
 
-        name: string
-            dataset name
+            xlo: array
+               the array which represents the lower x value for the x bins
 
-        xlo: array
-           the array which represents the lower x value for the x bins
+            xhi: array
+               the array which represents the upper x value for the x bins
 
-        xhi: array
-           the array which represents the upper x value for the x bins
+            ylo: array
+               the array which represents the lower y value for the y bins
 
-        ylo: array
-           the array which represents the lower y value for the y bins
-
-        yhi: array
-           the array which represents the upper y value for the y bins
+            yhi: array
+               the array which represents the upper y value for the y bins
 
 
-        z: array
-           the array which represents z data
+            z: array
+               the array which represents z data
 
-        bkg: array
-           the array which represents bkgdata
+            bkg: array
+               the array which represents bkgdata
 
-        staterror: array (optional)
-            the array which represents the errors on z
+            staterror: array (optional)
+                the array which represents the errors on z
 
-        bkg_scale: float
-            the scaling factor for background data
+            bkg_scale: float
+                the scaling factor for background data
 
-        src_scale: float
-            the scaling factor for source data
+            src_scale: float
+                the scaling factor for source data
     """
 
     _response_ids = [0]
@@ -842,30 +852,31 @@ class Data2DBkg(Data2D):
     """
        Data2D which tricks sherpa into using the background object without
        using DataPHA
+       Parameters
+       ----------
+           name: string
+                dataset name
 
-       name: string
-            dataset name
+            x: array
+               the array which represents x data
 
-        x: array
-           the array which represents x data
+            y: array
+               the array which represents y data
 
-        y: array
-           the array which represents y data
+            z: array
+               the array which represents z data
 
-        z: array
-           the array which represents z data
+            bkg: array
+               the array which represents bkgdata
 
-        bkg: array
-           the array which represents bkgdata
+            staterror: array (optional)
+                the array which represents the errors on z
 
-        staterror: array (optional)
-            the array which represents the errors on z
+            bkg_scale: float
+                the scaling factor for background data
 
-        bkg_scale: float
-            the scaling factor for background data
-
-        src_scale: float
-            the scaling factor for source data
+            src_scale: float
+                the scaling factor for source data
     """
 
     _response_ids = [0]
@@ -905,11 +916,12 @@ class BkgDataset(object):
     """
         The background object which is used to caclulate fit
         stat's which require it.
-
-        bkg: array
-            the background data
-        bkg_scale: float
-            the ratio of src/bkg
+        Parameters
+        ----------
+            bkg: array
+                the background data
+            bkg_scale: float
+                the ratio of src/bkg
     """
 
     def __init__(self, bkg, bkg_scale):
