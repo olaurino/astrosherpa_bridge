@@ -12,7 +12,8 @@ from sherpa.stats import CStat, WStat, Cash
 from sherpa.optmethods import GridSearch, LevMar, MonCar, NelderMead
 from sherpa.estmethods import Confidence, Covariance, Projection
 from sherpa.sim import MCMC
-from functools import wraps
+import inspect
+import types
 # from astropy.modeling
 
 __all__ = ('SherpaFitter', 'SherpaMCMC')
@@ -28,8 +29,9 @@ class SherpaWrapper(object):
     def set(self, value):
         try:
             self.value = self._sherpa_values[value.lower()]
-        except Keybinsizeor:
+        except KeyError:
             UserWarning("Value not found")  # todo handle
+
 
 class Stat(SherpaWrapper):
 
@@ -84,8 +86,8 @@ class SherpaMCMC(object):
         An interface which makes use of sherpa's MCMC(pyBLoCXS) functionality.
 
         fitter: a SherpaFitter instance:
-                used to caluate the fit statstics, must have been fit as t
-                he covariance matrix is used.
+                used to caluate the fit statstics, must have been fit as 
+                the covariance matrix is used.
         smapler: string
                 the name of a valid sherpa sampler
 
@@ -167,7 +169,7 @@ class SherpaMCMC(object):
 
         Examples
         --------
-        >> mcmc = SherpaMCMC(sfit) # doctest: +SKIP
+        >> mcmc = SherpaMCMC(sfit)
         >> mcmc.set_sampler_opt('scale', 3)
         """
         self._mcmc.set_sampler_opt(opt, value)
@@ -218,6 +220,28 @@ class SherpaMCMC(object):
                                      "map".format(name=parameter))
 
 
+class doc_wrapper(object):
+
+    def __init__(self, f, pre="", post=""):
+        self._f = f
+        self._pre = pre
+        self._post = post
+
+    @property
+    def __doc__(self,):
+        return "".join([self._pre, self._f.__doc__, self._post])
+
+    def __call__(self, instance, *args, **kwargs):
+        return self._f(instance, *args, **kwargs)
+
+    def __get__(self, instance, cls=None):
+        ''' This implements the descriptor protocol and allows this
+        callable class to be used as a bound method.
+        See:
+        https://docs.python.org/2/howto/descriptor.html#functions-and-methods
+        '''
+        return types.MethodType(self, instance, cls)
+
 
 class SherpaFitter(Fitter):
     __doc__ = """
@@ -264,13 +288,16 @@ class SherpaFitter(Fitter):
         self._fitmodel = None  # a handle for sherpa fit model
         self._data = None  # a handle for sherpa dataset
 
+    get_sampler = doc_wrapper(SherpaMCMC, "This returns and instance of `SherpaMCMC` with it's self as the fitter:\n")
+
+
     def __call__(self, models, x, y, z=None, xbinsize=None, ybinsize=None, err=None, bkg=None, bkg_scale=1, **kwargs):
         """
         Fit the astropy model with a the sherpa fit routines.
 
         Parameters
         ----------
-        models : `~astropy.modeling.FittableModel` or list of `~astropy.modeling.FittableModel`
+        models : `astropy.modeling.FittableModel` or list of `astropy.modeling.FittableModel`
             model to fit to x, y, z
         x : array or list of arrays
             input coordinates
@@ -289,13 +316,13 @@ class SherpaFitter(Fitter):
 
         Returns
         -------
-        model_copy : `~astropy.modeling.FittableModel` or a list of models.
+        model_copy : `astropy.modeling.FittableModel` or a list of models.
             a copy of the input model with parameters set by the fitter
         """
 
         tie_list = []
         try:
-           n_inputs = models[0].n_inputs
+            n_inputs = models[0].n_inputs
         except TypeError:
             n_inputs = models.n_inputs
 
@@ -349,10 +376,7 @@ class SherpaFitter(Fitter):
 
         return self._fitter.est_errors(methoddict=methoddict, parlist=parlist)
 
-    @wraps(SherpaMCMC)
-    def get_sampler(self, *args, **kwargs):
-
-        return SherpaMCMC(self, *args, **kwargs)
+    
 
 class Dataset(SherpaWrapper):
 
@@ -541,7 +565,7 @@ class ConvertedModel(object):
     This  wraps the model convertion to sherpa models and from astropy models and back!
 
     Parameters:
-        models: model : `~astropy.modeling.FittableModel` (or list of)
+        models: model : `astropy.modeling.FittableModel` (or list of)
 
         tie_list: list (optional)
             a list of parameter pairs which will be tied accross models

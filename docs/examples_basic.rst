@@ -6,7 +6,7 @@ How to use SherpaFitter
 
 I'll show you our API for the bridge. 
 Firstly lets import the `SherpaFitter <../sherpafitter.html#astrosherpa_bridge.SherpaFitter>`_ class which is the interface with |sherpa|'s fitting routines.
-`SherpaFitter <../sherpafitter.html#astrosherpa_bridge.SherpaFitter>`_ is available through astropy
+`SherpaFitter` is available through astropy
 So it can be imported by: 
 
 .. code-block:: ipython
