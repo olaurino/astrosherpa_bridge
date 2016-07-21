@@ -130,4 +130,4 @@ in returns we get a tuple of (prameter_name, best_fit_value, lower_value, upper_
    mean 0.778538514198 -0.0964139944319 0.0964139944319
    stddev 0.507219374547 -0.105919629294 0.105919629294
 
-.. image:: _generated/example_plot_error.p
+.. image:: _generated/example_plot_error.png
